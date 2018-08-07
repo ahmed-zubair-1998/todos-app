@@ -1,0 +1,9 @@
+{% if todos_list %}
+    <ul>
+    {% for todo in todos_list %}
+        <li>{{todo.todo_text}} - {{todo.pub_date}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No todo created</p>
+{% endif %}
