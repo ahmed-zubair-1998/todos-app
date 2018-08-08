@@ -1,0 +1,7 @@
+<form method="post" action={% url 'todos:new' %}>
+	{% csrf_token %}
+	Todo:
+	</br>
+	<input type="text" name="todo_text"></br>
+	<input type="submit" value="Submit">
+</form>

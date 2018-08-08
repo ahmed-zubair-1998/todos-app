@@ -1,9 +1,22 @@
 {% if todos_list %}
+	<header>
+		TODOS
+		<a href="/accounts/logout"}>Logout</a>
+	</header>
+	<h4><a href= "{% url 'todos:new' %}"> New </a></h4>
     <ul>
     {% for todo in todos_list %}
-        <li>{{todo.todo_text}} - {{todo.pub_date}}</li>
+		<div>
+			<li>
+				<header>{{todo.pub_date}}</header>
+				{{todo.todo_text}}
+				<input type ="checkbox">
+				</hr>
+			</li>
+		</div>
     {% endfor %}
     </ul>
 {% else %}
+	<h4><a href= "{% url 'todos:new' %}"> New </a></h4>
     <p>No todo created</p>
 {% endif %}
