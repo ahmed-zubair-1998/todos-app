@@ -1,18 +1,26 @@
+<nav>
+	<a href="{% url 'todos:index' %}">TODOS</a>
+	<a href="{% url 'logout' %}" style = "float:right"> Log Out</li>
+</nav>
 {% if todos_list %}
-	<header>
-		TODOS
-		<a href="/accounts/logout"}>Logout</a>
-	</header>
 	<h4><a href= "{% url 'todos:new' %}"> New </a></h4>
-    <ul>
+    <ul style="list-style-type: none">
     {% for todo in todos_list %}
 		<div>
 			<li>
-				<header>{{todo.pub_date}}</header>
+				<small>{{todo.pub_date}}</small><br>
 				{{todo.todo_text}}
-				<input type ="checkbox">
-				</hr>
+				{% if todo.status is False %}
+					<form method = "post">
+						{% csrf_token %}
+						<input type="hidden" name="todo_id" id="todo_id" value="{{todo.id}}"> 
+						<input type="submit" value="Mark as done!">
+					</form>
+				{% else %}
+					Completed!
+				{% endif %}
 			</li>
+			<br><br>
 		</div>
     {% endfor %}
     </ul>
