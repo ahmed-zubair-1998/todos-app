@@ -10,11 +10,15 @@ class IndexViewTests(TestCase):
 
     def login(self):
         self.user = User.objects.create_user('u7', 'miniso12')
-        self.assertIs(self.client.login(username = 'u7', password = 'miniso12'),True)
-    
+        self.client.force_login(self.user)
+
     def test_login(self):
-        self.user = User.objects.create_user('u7', 'miniso12')
-        self.assertIs(self.client.login(username = 'u7', password = 'miniso12'),True)
+        #not logged-in
+        res = self.client.get(reverse('todos:index'))
+        self.assertEqual(res.status_code, 302)
+
+        #logged-in
+        self.login()
         res = self.client.get(reverse('todos:index'))
         self.assertEqual(res.status_code, 200)
 
@@ -22,7 +26,8 @@ class IndexViewTests(TestCase):
         self.login()
         res = self.client.get(reverse('todos:index'))
         self.assertContains(res, "No todo created")
-        self.assertEqual(res.context['todos_list'], [])
+        tl = res.context['todos_list']
+        self.assertEqual(len(res.context['todos_list']), 0)
 
     def test_todo_not_completed(self):
         self.login()
@@ -39,6 +44,3 @@ class IndexViewTests(TestCase):
         res = self.client.get(reverse('todos:index'))
         self.assertContains(res, "test todo")
         self.assertIs(b"Completed" in res.content, True)
-
-        
-        
