@@ -17,8 +17,11 @@ def index(request):
     else:
         t_id = request.POST['todo_id']
         t = Todo.objects.get(id=t_id)
-        t.status = True
-        t.save()
+        if "done" in request.POST:
+            t.status = True
+            t.save()
+        if "delete" in request.POST:
+            t.delete()
         return HttpResponseRedirect(reverse('todos:index'))
         
 

@@ -10,15 +10,16 @@
 			<li>
 				<small>{{todo.pub_date}}</small><br>
 				{{todo.todo_text}}
+				<form method = "post">
+				{% csrf_token %}
+				<input type="hidden" name="todo_id" id="todo_id" value="{{todo.id}}">
 				{% if todo.status is False %}
-					<form method = "post">
-						{% csrf_token %}
-						<input type="hidden" name="todo_id" id="todo_id" value="{{todo.id}}"> 
-						<input type="submit" value="Mark as done!">
-					</form>
+					<input type="submit" name="done" value="Mark as done!">
 				{% else %}
 					Completed!
 				{% endif %}
+				<input type="submit" name="delete" value="Delete!">
+				</form>
 			</li>
 			<br><br>
 		</div>
